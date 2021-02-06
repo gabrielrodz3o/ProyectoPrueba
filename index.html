@@ -1,0 +1,59 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title >Login</title>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+</head>
+<body>
+  <div class="container">
+  <div class="row">
+  <div class="col-md-12">
+  <h2>Login</h2>
+  <p>Por favor escribe tu email y contraseña.</p>
+  <form action="" method="post">
+  <div class="form-group">
+  <label> Correo Eletronico</label>
+  <input type="email" name="email" class="form-control" require />
+  </div>
+    <div class="form-group">
+    <label>Contraseña</label>
+    <input type="password" name="password" class="form-control"require>
+    </div>
+
+    <div class="form-group">
+    <input type="submit" name="submit" id="submit" class="btn btn-primary" />
+     <p>No tienes una cuenta? <a href="registrar.php">Registrar aqui </a>.
+    </form>
+    </div>
+   <div>
+   
+   </div>
+ 
+
+</body>
+</html>
+
+<?php
+require_once('conexion.php'); 
+$conexion=conectarBd2();
+
+if(isset($_POST['submit'])&&!empty($_POST['submit'])){
+    
+  $hashpassword = md5($_POST['pwd']);
+  $sql ="select *from public.user where email = '".pg_escape_string($_POST['email'])."' and password ='".$hashpassword."'";
+  $data = pg_query($dbconn,$sql); 
+  $login_check = pg_num_rows($data);
+  if($login_check > 0){ 
+      
+      echo "Login Successfully";    
+  }else{
+      
+      echo "Invalid Details";
+  }
+}
+          
+?>  
